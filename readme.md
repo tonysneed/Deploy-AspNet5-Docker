@@ -52,10 +52,12 @@
     ```
     docker build -t consoleapp .
     ```
+  - To verify enter: `docker images`
   - Run the container:
     ```
-    docker run -t -d consoleapp
+    docker run -t consoleapp
     ```
+  - You should see the followint output: `Hello World`
   
 4. Run **web sample**
   - Create WebApp folder
@@ -75,9 +77,11 @@
     ```
     docker build -t webapp .
     ```
+  - To verify enter: `docker images`
   - Run the container:
     ```
     docker run -t -d -p 5004:5004 webapp
     ```
+  - To verify enter: `docker ps`
   - Open a browser and go to: `http://localhost:5004`
 
