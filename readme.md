@@ -1,5 +1,5 @@
 # Visual Studio Code Setup
-## For ASP.NET 5 on Linux Ubuntu
+## For ASP.NET 5 on Linux Ubuntu with Docker
 
 1. Download and install **Visual Studio Code**
 
@@ -14,59 +14,70 @@
     + Navigate to Source in Terminal and enter:  `code .`
     + VS Code will open at this location
     
-2. Install **ASP.NET 5** on Linux Ubuntu
+2. Install **Docker** on Linux Ubuntu
 
-  - Instructions: http://docs.asp.net/en/latest/getting-started/installing-on-linux.html
-  - Install Mono:
+  - Install Docker from its own package source:
     ```
-    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-    echo "deb http://download.mono-project.com/repo/debian wheezy main" | sudo tee /etc/apt/sources.list.d/mono-xamarin.list
+    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
+    sudo sh -c "echo deb https://get.docker.com/ubuntu docker main > /etc/apt/sources.list.d/docker.list"
     sudo apt-get update
-    sudo apt-get install Mono-Complete
+    sudo apt-get install lxc-docker
     ```
-  - Install libuv
+  - To verify Docker installation enter: `docker --version`
+  - Eliminate need to prefix docker commands with `sudo` for root privilges
     ```
-    sudo apt-get install automake libtool curl
-    curl -sSL https://github.com/libuv/libuv/archive/v1.4.2.tar.gz | sudo tar zxfv - -C /usr/local/src
-    cd /usr/local/src/libuv-1.4.2
-    sudo sh autogen.sha
-    sudo ./configure
-    sudo make
-    sudo make install
-    sudo rm -rf /usr/local/src/libuv-1.4.2 && cd ~/
-    sudo ldconfig
+    sudo groupadd docker
+    sudo gpasswd -a ${USER} docker
+    sudo service docker restart
+    newgrp docker
     ```
-  - Install DotNet Version Manager: `dnvm`
-    `curl -sSL https://raw.githubusercontent.com/aspnet/Home/dev/dnvminstall.sh | DNX_BRANCH=dev sh && source ~/.dnx/dnvm/dnvm.s`
-  - Enter: `source /home/parallels/.dnx/dnvm/dnvm.sh`
-  - Run `dnvm`
-  - Enter: `dnvm upgrade`
+  - To verify docker root privileges enter: `docker run --help`
+  - Say hello to Docker: `docker run hello-world`
+    + You should see the message: `Hello from Docker`
 
 3. Run **console sample**
   - Create ConsoleApp folder
   - Go to the aspnet repo: https://github.com/aspnet/Home/tree/dev/samples/latest/ConsoleApp
   - Download: project.json, program.cs
-  - Restore packages: `dnu restore`
-  - Run the app: `dnx . run`
+  - Add a file called `Dockerfile` in the app directory with the following contents:
+    ```
+    FROM microsoft/aspnet:1.0.0-beta4
+    ADD . /app
+    WORKDIR /app
+    RUN ["dnu", "restore"]
+    
+    ENTRYPOINT ["dnx", "run"]
+    ```
+  - From the app directory, build the docker image
+    ```
+    docker build -t consoleapp .
+    ```
+  - Run the container:
+    ```
+    docker run -t -d consoleapp
+    ```
   
 4. Run **web sample**
   - Create WebApp folder
   - Go to the aspnet repo: https://github.com/aspnet/Home/tree/dev/samples/latest/HelloWeb
   - Download: project.json, startup.cs
-  - Restore packages: `dnu restore`
-  - Run the app: `dnx . kestrel`
-  - Open a browser and go to: http://localhost:5004
-  - Try stopping kestrel by pressing Enter
+  - Add a file called `Dockerfile` in the app directory with the following contents:
+    ```
+    FROM microsoft/aspnet:1.0.0-beta4
+    ADD . /app
+    WORKDIR /app
+    RUN ["dnu", "restore"]
+    
+    EXPOSE 5004
+    ENTRYPOINT ["dnx", "kestrel"]
+    ```
+  - From the app directory, build the docker image
+    ```
+    docker build -t webapp .
+    ```
+  - Run the container:
+    ```
+    docker run -t -d -p 5004:5004 webapp
+    ```
+  - Open a browser and go to: `http://localhost:5004`
 
-5. Scaffold an **ASP.NET Web API** app using **Yeoman**
-  - Install the node package manager: `npm`:
-
-    `sudo apt-get install nodejs-legacy npm`
-  - Install Yeoman, the asp.net generator, grunt and bower:
-  
-    `sudo npm install -g yo grunt-cli generator-aspnet bower`
-  - Go to parent folder in Terminal and run `yo aspnet`
-    + Pick Web API Application, enter as name: **HelloWebApi**
-  - Run `dnu restore`, then run as before: `dnx . kestrel`
-  - Open a browser and go to: `http://localhost:5001/api/values`
-  - Press Enter to stop Kestrel
