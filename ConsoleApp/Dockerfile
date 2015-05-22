@@ -3,4 +3,4 @@ ADD . /app
 WORKDIR /app
 RUN ["dnu", "restore"]
 
-ENTRYPOINT ["dnx", "run"]
+ENTRYPOINT ["dnx", ".", "run"]

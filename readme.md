@@ -46,7 +46,7 @@
     WORKDIR /app
     RUN ["dnu", "restore"]
     
-    ENTRYPOINT ["dnx", "run"]
+    ENTRYPOINT ["dnx", ".", "run"]
     ```
   - From the app directory, build the docker image
     ```
@@ -69,7 +69,7 @@
     RUN ["dnu", "restore"]
     
     EXPOSE 5004
-    ENTRYPOINT ["dnx", "kestrel"]
+    ENTRYPOINT ["dnx", ".", "kestrel"]
     ```
   - From the app directory, build the docker image
     ```
