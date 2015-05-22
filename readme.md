@@ -27,7 +27,7 @@
   - Eliminate need to prefix docker commands with `sudo` for root privilges
     ```
     sudo groupadd docker
-    sudo gpasswd -a ${USER} docker
+    sudo gpasswd -a parallels docker
     sudo service docker restart
     newgrp docker
     ```
@@ -42,7 +42,7 @@
   - Add a file called `Dockerfile` in the app directory with the following contents:
     ```
     FROM microsoft/aspnet:1.0.0-beta4
-    ADD . /app
+    COPY . /app
     WORKDIR /app
     RUN ["dnu", "restore"]
     
@@ -64,7 +64,7 @@
   - Add a file called `Dockerfile` in the app directory with the following contents:
     ```
     FROM microsoft/aspnet:1.0.0-beta4
-    ADD . /app
+    COPY . /app
     WORKDIR /app
     RUN ["dnu", "restore"]
     
