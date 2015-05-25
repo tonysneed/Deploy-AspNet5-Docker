@@ -7,6 +7,7 @@
   - Under Home, create a folder called **VSCode**.
   - Extract downloaded zip file to this location
   - Create a link to launch Code from Terminal by typing `code .`
+  
     ```
     sudo ln -s /home/parallels/VSCode/Code /usr/local/bin/code
     ```
@@ -17,6 +18,7 @@
 2. Install **Docker** on Linux Ubuntu
 
   - Install Docker from its own package source:
+
     ```
     sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
     sudo sh -c "echo deb https://get.docker.com/ubuntu docker main > /etc/apt/sources.list.d/docker.list"
@@ -25,6 +27,7 @@
     ```
   - To verify Docker installation enter: `docker --version`
   - Eliminate need to prefix docker commands with `sudo` for root privilges
+
     ```
     sudo groupadd docker
     sudo gpasswd -a parallels docker
@@ -40,6 +43,7 @@
   - Go to the aspnet repo: https://github.com/aspnet/Home/tree/dev/samples/latest/ConsoleApp
   - Download: project.json, program.cs
   - Add a file called `Dockerfile` in the app directory with the following contents:
+
     ```
     FROM microsoft/aspnet:1.0.0-beta4
     COPY . /app
@@ -49,11 +53,13 @@
     ENTRYPOINT ["dnx", ".", "run"]
     ```
   - From the app directory, build the docker image
+
     ```
     docker build -t consoleapp .
     ```
   - To verify enter: `docker images`
   - Run the container:
+
     ```
     docker run -t consoleapp
     ```
@@ -64,6 +70,7 @@
   - Go to the aspnet repo: https://github.com/aspnet/Home/tree/dev/samples/latest/HelloWeb
   - Download: project.json, startup.cs
   - Add a file called `Dockerfile` in the app directory with the following contents:
+
     ```
     FROM microsoft/aspnet:1.0.0-beta4
     COPY . /app
@@ -74,11 +81,13 @@
     ENTRYPOINT ["dnx", ".", "kestrel"]
     ```
   - From the app directory, build the docker image
+
     ```
     docker build -t webapp .
     ```
   - To verify enter: `docker images`
   - Run the container:
+
     ```
     docker run -t -d -p 5004:5004 webapp
     ```
