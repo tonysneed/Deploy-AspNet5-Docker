@@ -69,6 +69,7 @@
   - Create WebApp folder
   - Go to the aspnet repo: https://github.com/aspnet/Home/tree/dev/samples/latest/HelloWeb
   - Download: project.json, startup.cs
+  - Add an empty directory called `wwwroot`
   - Add a file called `Dockerfile` in the app directory with the following contents:
 
     ```
