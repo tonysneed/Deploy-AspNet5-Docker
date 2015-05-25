@@ -92,6 +92,7 @@
     ```
     docker run -t -d -p 5004:5004 webapp
     ```
+  - You'll get back a container id, which is a big long number you can use to read the container logs, which will show generated output, incuding runtime error information.
   - To verify enter: `docker ps`
   - Open a browser and go to: `http://localhost:5004`
 
