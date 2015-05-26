@@ -1,21 +1,7 @@
-# Visual Studio Code Setup
-## For ASP.NET 5 on Linux Ubuntu with Docker
+# Deploy ASP.NET 5 Apps
+## To a Linux Virtual Machine with Docker
 
-1. Download and install **Visual Studio Code**
-
-  - Instructions: https://code.visualstudio.com/Docs/setup
-  - Under Home, create a folder called **VSCode**.
-  - Extract downloaded zip file to this location
-  - Create a link to launch Code from Terminal by typing `code .`
-  
-    ```
-    sudo ln -s /home/parallels/VSCode/Code /usr/local/bin/code
-    ```
-  - Create a folder under Home called **Source**
-    + Navigate to Source in Terminal and enter:  `code .`
-    + VS Code will open at this location
-    
-2. Install **Docker** on Linux Ubuntu
+1. Install **Docker** on Linux Ubuntu
 
   - Install Docker from its own package source:
 
@@ -38,7 +24,7 @@
   - Say hello to Docker: `docker run hello-world`
     + You should see the message: `Hello from Docker`
 
-3. Run **console sample**
+2. Run **console sample**
   - Create ConsoleApp folder
   - Go to the aspnet repo: https://github.com/aspnet/Home/tree/dev/samples/latest/ConsoleApp
   - Download: project.json, program.cs
@@ -65,7 +51,7 @@
     ```
   - You should see the followint output: `Hello World`
   
-4. Run **web sample**
+3. Run **web sample**
   - Create WebApp folder
   - Go to the aspnet repo: https://github.com/aspnet/Home/tree/dev/samples/latest/HelloWeb
   - Download: project.json, startup.cs
